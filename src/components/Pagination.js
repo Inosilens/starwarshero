@@ -12,7 +12,7 @@ function Pagination({namesPerPage, totalNames, pagination }) {
         <div><ul>
                 {pageNumbers.map((number)=>
 
-                    <li key={number}><a href="" onClick={()=>pagination(number)}>{number}</a></li>
+                    <li key={number}><a href="#" onClick={()=>pagination(number)}>{number}</a></li>
                 )}
         </ul>
         </div>

@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [namesPerPage] = useState(10);
+  const [searchValue,setSearchValue]=useState("")
 
   useEffect(() => {
     getData("https://swapi.dev/api/people/?format=json");
@@ -46,6 +47,9 @@ function App() {
     }
   };
 
+  const filteredName = dataName.filter(name=>{
+    return name.name.toLowerCase().includes(searchValue.toLowerCase())
+  })
   const lastNameIndex = currentPage * namesPerPage;
   const firstElemIndex = lastNameIndex - namesPerPage;
   const currentName = dataName.slice(firstElemIndex, lastNameIndex);
@@ -61,11 +65,21 @@ function App() {
             path="/"
             exact
             render={() => (
+                <>
               <HeroList
                 loading={loading}
                 data={currentName}
                 addLovely={addLovely}
+                currentPage={currentPage}
+                setSearchValue={setSearchValue}
+                filteredName={filteredName}
               />
+              <Pagination
+              namesPerPage={currentName}
+              totalNames={dataName.length}
+              pagination={pagination}
+              />
+                </>
             )}
           />
 
@@ -75,11 +89,7 @@ function App() {
           />
         </Switch>
       </Router>
-      <Pagination
-        namesPerPage={currentName}
-        totalNames={dataName.length}
-        pagination={pagination}
-      />
+
     </>
   );
 }
