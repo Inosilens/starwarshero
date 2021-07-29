@@ -5,15 +5,17 @@ import HeroList from "./components/HeroList";
 import LovelyHero from "./components/LovelyHero";
 import Pagination from "./components/Pagination";
 
-function App(props) {
+function App() {
   const [dataName, setDataName] = useState([]);
   const [lovely, setLovelyHero] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [namesPerPage] = useState(10);
 
   useEffect(() => {
     getData("https://swapi.dev/api/people/?format=json");
-  }, [HeroList]);
+    setLoading(false);
+  }, []);
 
   const getData = (url) => {
     fetch(url).then((r) => r.json().then((r) => getAllList(r)));
@@ -22,12 +24,16 @@ function App(props) {
   const namesArr = [];
 
   const getAllList = (data) => {
+    setLoading(true);
     for (let i = 0; i < data.results.length; i++)
       namesArr.push(data.results[i]);
     console.log(namesArr);
     if (data.next) {
       getData(data.next);
+    } else {
+      setLoading(false);
     }
+
     setDataName(namesArr);
   };
 
@@ -40,29 +46,41 @@ function App(props) {
     }
   };
 
-  const lastNameIndex = currentPage + namesPerPage;
+  const lastNameIndex = currentPage * namesPerPage;
   const firstElemIndex = lastNameIndex - namesPerPage;
-  const currentNamePage = dataName.slice(firstElemIndex, lastNameIndex);
+  const currentName = dataName.slice(firstElemIndex, lastNameIndex);
   const pagination = (pageNumber) => {
+
     setCurrentPage(pageNumber);
   };
-  return (<>
-    <Router>
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={() => <HeroList data={dataName} addLovely={addLovely} />}
-        />
+  return (
+    <>
+      <Router>
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <HeroList
+                loading={loading}
+                data={currentName}
+                addLovely={addLovely}
+              />
+            )}
+          />
 
-        <Route
-          path="/favorites"
-          render={() => <LovelyHero lovelyList={lovely} />}
-        />
-      </Switch>
-    </Router>
-      <Pagination namesPerPage={currentNamePage} totalNames={dataName.length} pagination={pagination}/>
-      </>
+          <Route
+            path="/favorites"
+            render={() => <LovelyHero lovelyList={lovely} />}
+          />
+        </Switch>
+      </Router>
+      <Pagination
+        namesPerPage={currentName}
+        totalNames={dataName.length}
+        pagination={pagination}
+      />
+    </>
   );
 }
 

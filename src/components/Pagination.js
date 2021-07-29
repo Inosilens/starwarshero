@@ -1,20 +1,20 @@
 import React from 'react';
 
 function Pagination({namesPerPage, totalNames, pagination }) {
-    const pageNumber = []
+    const pageNumbers = []
+    for (let i = 1; i <=Math.ceil (totalNames/namesPerPage.length);i++)
 
-    for (let i = 1; i < Math.ceil(totalNames/namesPerPage);i++)
-    {
-        pageNumber.push(i)
-    }
+        pageNumbers.push(i)
+
+
+    console.log(pageNumbers)
     return (
-        <div>
-            <ul>
-                {pageNumber.map(number=>
+        <div><ul>
+                {pageNumbers.map((number)=>
 
-                    <li onClick={()=>pagination(number)}>{number}</li>
+                    <li key={number}><a href="" onClick={()=>pagination(number)}>{number}</a></li>
                 )}
-            </ul>
+        </ul>
         </div>
     );
 }

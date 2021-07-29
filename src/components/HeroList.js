@@ -1,7 +1,13 @@
 import React from "react";
 import NavLinks from "./NavLinks";
+import Pagination from "./Pagination";
 
-function HeroList({ data, addLovely }) {
+function HeroList({ data, addLovely,loading }) {
+    if (loading){
+        return (<div className="loader-ring">
+            <div /><div /><div />
+        </div>)
+    }
   return (
     <div>
       <NavLinks />
