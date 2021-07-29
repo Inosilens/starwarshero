@@ -30,6 +30,11 @@ ul li a{
   border: 1px solid #9bd2de;
   text-decoration: none;
 }
+input {
+  padding: 10px 0;
+  margin-top: 10px;
+  width: 300px;
+}
 .container {
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 import React from "react";
 import NavLinks from "./NavLinks";
 
-function HeroList({ data, addLovely, loading, currentPage,setSearchValue,filteredName }) {
+function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
   if (loading) {
     return (
       <div className="loader-ring">
@@ -14,16 +14,22 @@ function HeroList({ data, addLovely, loading, currentPage,setSearchValue,filtere
   return (
     <div>
       <NavLinks />
-        <input onChange={(event => setSearchValue(event.target.value))} type='text' />
+      <input
+          placeholder="Searh Your Hero"
+        onChange={(event) => setSearchValue(event.target.value)}
+        type="text"
+      />
       <div className="container">
-        {filteredName.map((item, index) => (
+        {data.map((item, index) => (
           <div>
             <div key={item[index]} className="container__box">
               <img
                 width="200px"
                 height="200px"
                 src={`https://starwars-visualguide.com/assets/img/characters/${
-                  (currentPage===1)?index+1:((currentPage-1)*10)+index+1
+                  currentPage === 1
+                    ? (index===17)? index+ 2:index+1:
+                     (currentPage - 1) * 10 + index + 1
                 }.jpg`}
                 alt=""
               />

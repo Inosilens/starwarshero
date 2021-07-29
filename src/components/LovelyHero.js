@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React  from "react";
 import NavLinks from "./NavLinks";
 
-function LovelyHero({ lovelyList }) {
+function LovelyHero({ lovelyList,currentPage }) {
+
   return (
     <div>
       <NavLinks />
@@ -11,7 +12,9 @@ function LovelyHero({ lovelyList }) {
             width="200px"
             height="200px"
             src={`https://starwars-visualguide.com/assets/img/characters/${
-              item.index + 1
+                currentPage === 1
+                    ? item.index + 1
+                    : (currentPage - 1) * 10 + item.index + 1
             }.jpg`}
             alt=""
           />

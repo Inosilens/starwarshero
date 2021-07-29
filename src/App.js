@@ -11,7 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [namesPerPage] = useState(10);
-  const [searchValue,setSearchValue]=useState("")
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     getData("https://swapi.dev/api/people/?format=json");
@@ -28,7 +28,6 @@ function App() {
     setLoading(true);
     for (let i = 0; i < data.results.length; i++)
       namesArr.push(data.results[i]);
-    console.log(namesArr);
     if (data.next) {
       getData(data.next);
     } else {
@@ -43,18 +42,19 @@ function App() {
       return e.index === index;
     });
     if (!check) {
-      setLovelyHero([...lovely, { love, index }]);
+      setLovelyHero([...lovely, { love, index }])
+      localStorage.setItem(index,love.name);
+
     }
   };
 
-  const filteredName = dataName.filter(name=>{
-    return name.name.toLowerCase().includes(searchValue.toLowerCase())
-  })
+  const filteredName = dataName.filter((name) => {
+    return name.name.toLowerCase().includes(searchValue.toLowerCase());
+  });
   const lastNameIndex = currentPage * namesPerPage;
   const firstElemIndex = lastNameIndex - namesPerPage;
-  const currentName = dataName.slice(firstElemIndex, lastNameIndex);
+  const currentName = filteredName.slice(firstElemIndex, lastNameIndex);
   const pagination = (pageNumber) => {
-
     setCurrentPage(pageNumber);
   };
   return (
@@ -65,31 +65,32 @@ function App() {
             path="/"
             exact
             render={() => (
-                <>
-              <HeroList
-                loading={loading}
-                data={currentName}
-                addLovely={addLovely}
-                currentPage={currentPage}
-                setSearchValue={setSearchValue}
-                filteredName={filteredName}
-              />
-              <Pagination
-              namesPerPage={currentName}
-              totalNames={dataName.length}
-              pagination={pagination}
-              />
-                </>
+              <>
+                <HeroList
+                  loading={loading}
+                  data={currentName}
+                  addLovely={addLovely}
+                  currentPage={currentPage}
+                  setSearchValue={setSearchValue}
+                  filteredName={filteredName}
+                />
+                <Pagination
+                  namesPerPage={currentName}
+                  totalNames={dataName.length}
+                  pagination={pagination}
+                />
+              </>
             )}
           />
 
           <Route
             path="/favorites"
-            render={() => <LovelyHero lovelyList={lovely} />}
+            render={() => (
+              <LovelyHero lovelyList={lovely} currentPage={currentPage} />
+            )}
           />
         </Switch>
       </Router>
-
     </>
   );
 }
