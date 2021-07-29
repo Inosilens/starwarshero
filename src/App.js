@@ -1,55 +1,48 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Switch } from "react-router";
 import getData from "./services/getData";
 import HeroList from "./components/HeroList";
 import LovelyHero from "./components/LovelyHero";
 
+function App(props) {
+  const [allData, setAllData] = useState([]);
+  const [dataName, setData] = useState([]);
+  const [lovely, setLovelyHero] = useState([]);
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      allData: [],
-      lovely: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setList();
-  }
-  addFavorite = (love) => {
-    console.log(love);
-
-    if (this.state.lovely.indexOf(love))
-      this.setState({
-        lovely: [...this.state.lovely, love],
-      });
+  useEffect(() => {
+    getResponse().then((r) => {
+      setData(r.results);
+      setAllData(r)
+    });
+  });
+  const getResponse = async () => {
+    return await getData();
+  };
+  const addLovely = (love, index) => {
+    let check = lovely.some(function (e) {
+      return e.index === index;
+    });
+    if (!check) {
+      setLovelyHero([...lovely, { love, index }]);
+    }
   };
 
-  setList = () => {
-    return getData().then((r) => this.setState({ allData: r.results }));
-  };
-  render() {
-    const { allData } = this.state;
-    return (
-      <Router>
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => (
-              <HeroList dataList={allData} addFavorite={this.addFavorite} />
-            )}
-          />
-          <Route
-            path="/favorites"
-            render={() => <LovelyHero lovely={this.state.lovely} />}
-          />
-        </Switch>
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <Switch>
+        <Route
+          path="/"
+          exact
+          render={() => <HeroList data={dataName} addLovely={addLovely} />}
+        />
+        <Route
+          path="/favorites"
+          render={() => <LovelyHero lovelyList={lovely} />}
+        />
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;

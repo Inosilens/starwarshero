@@ -5,7 +5,14 @@ body {
   display: flex;
   background: url("../src/img/bg.jpg") center center fixed no-repeat;
   background-size: cover;
-
+}
+i {
+  font-size: 40px;
+  color: #9bd2de;
+}
+i:hover {
+  font-size: 50px;
+  transition: 0.5s;
 }
 .container {
   display: flex;
@@ -16,29 +23,17 @@ body {
 .container__box {
   align-items: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   flex-wrap: nowrap;
   border: 3px solid black;
-  padding: 5px 10px;
+  padding: 15px;
   margin: 10px 0;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.36);
   max-width: 500px;
   width: 100%;
 }
-.container__button {
-  text-decoration: none;
-  display: inline-block;
-  padding: 10px;
-  color: white;
-  background-image: linear-gradient(
-    to right,
-    #3d4e5a 0%,
-    #4830f0 51%,
-    #a2cdcd 100%
-  );
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
+
 .button__links {
   text-decoration: none;
   display: inline-block;

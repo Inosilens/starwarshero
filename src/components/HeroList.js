@@ -1,40 +1,34 @@
-import React, { Component } from "react";
+import React from "react";
 import NavLinks from "./NavLinks";
 
-class HeroList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  getImg=(index)=>{
-      return `https://starwars-visualguide.com/assets/img/characters/${index}.jpg`
-  }
-  render() {
-    return (
-      <>
-        <NavLinks />
-        <div className="container">
-          {this.props.dataList.map((element, index) => (
-            <div className="container__box" key={index}>
-              <div>
-                  <img src={ `https://starwars-visualguide.com/assets/img/characters/${index+1}.jpg` } width="200px" height="200px" alt="person"/>
-                <h3>{element.name}</h3>
-              </div>
-              <div>
-                <button
-                  className="container__button"
-                  key={element.index}
-                  onClick={() => this.props.addFavorite(element)}
-                >
-                  Tap to add lovely
-                </button>
-              </div>
+function HeroList({ data, addLovely }) {
+  return (
+    <div>
+      <NavLinks />
+      <div className="container">
+        {data.map((item, index) => (
+          <div>
+            <div key={item} className="container__box">
+              <img
+                width="200px"
+                height="200px"
+                src={`https://starwars-visualguide.com/assets/img/characters/${
+                  index + 1
+                }.jpg`}
+                alt=""
+              />
+              <h3 key={item.name}> {item.name} </h3>
+
+              <i
+                className="fas fa-heart "
+                onClick={() => addLovely(item, index)}
+              />
             </div>
-          ))}
-        </div>
-      </>
-    );
-  }
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default HeroList;
