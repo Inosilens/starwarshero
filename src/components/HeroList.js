@@ -8,7 +8,7 @@ function HeroList({ data, addLovely }) {
       <div className="container">
         {data.map((item, index) => (
           <div>
-            <div key={item} className="container__box">
+            <div key={item[index]} className="container__box">
               <img
                 width="200px"
                 height="200px"
@@ -17,7 +17,7 @@ function HeroList({ data, addLovely }) {
                 }.jpg`}
                 alt=""
               />
-              <h3 key={item.name}> {item.name} </h3>
+              <h3 key={item}> {item.name} </h3>
 
               <i
                 className="fas fa-heart "
