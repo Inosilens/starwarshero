@@ -14,13 +14,13 @@ function App() {
   const [namesPerPage] = useState(10); // количество выводимое на страницу
   const [searchValue, setSearchValue] = useState(""); //значение поиска
 
+
   useEffect(() => {
     getListOfName("https://swapi.dev/api/people/?format=json").then((r) =>
       getAllList(r)
     );
     setLoading(false);
   }, []); //получение данных апи , прохождение по всему списку
-
   const getAllList = (data) => {
     data.results.forEach((item) => NAMES_ARR.push(item));
     data.next
@@ -28,7 +28,6 @@ function App() {
       : setLoading(false);
     setDataName(NAMES_ARR);
   }; // получение всех имен
-
   const addLovely =  (love, index) => {
     let check = lovely.some(function (e) {
       return e.index === index;
@@ -44,10 +43,11 @@ function App() {
     setCurrentPage(pageNumber);
   }; //деление на список
 
+
   const NAMES_ARR = []; //массив имен
-  const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
-  const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
-  const currentName = dataAll.slice(firstElemIndex, lastNameIndex); //текущий список имен*/
+  const LAST__NAME_INDEX = currentPage * namesPerPage; // последний индекс списка
+  const FIRST_ELEM_INDEX = lastNameIndex - namesPerPage; // первый индекс списка
+  const CURRENT__NAME = dataAll.slice(FIRST_ELEM_INDEX, LAST__NAME_INDEX); //текущий список имен*/
 
   return (
     <>
@@ -60,14 +60,14 @@ function App() {
               <>
                 <HeroList
                   loading={loading}
-                  data={currentName}
+                  data={CURRENT__NAME}
                   addLovely={addLovely}
                   currentPage={currentPage}
                   setSearchValue={setSearchValue}
                   filteredName={filteredName}
                 />
                 <Pagination
-                  namesPerPage={currentName}
+                  namesPerPage={CURRENT__NAME}
                   totalNames={dataAll.length}
                   pagination={pagination}
                 />
