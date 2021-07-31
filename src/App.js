@@ -40,11 +40,12 @@ function App() {
       return e.index === index;
     });
     if (!check) {
-      setLovelyHero([...lovely,  love ]);
+      setLovelyHero([...lovely, love]);
     }
   }; //добавление в избраное
   const filteredName = dataAll.filter((results) => {
-    return results.name.toLowerCase().includes(searchValue.toLowerCase());})
+    return results.name.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
   const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
@@ -63,11 +64,11 @@ function App() {
               <>
                 <HeroList
                   loading={loading}
-                  data={filteredName}
+                  data={currentName}
                   addLovely={addLovely}
                   currentPage={currentPage}
                   setSearchValue={setSearchValue}
-                  /* filteredName={filteredName}*/
+                  filteredName={filteredName}
                 />
                 <Pagination
                   namesPerPage={currentName}
