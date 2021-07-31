@@ -15,28 +15,19 @@ function App() {
   const [searchValue, setSearchValue] = useState(""); //значение поиска
 
   useEffect(() => {
-    getListOfName().then((r) => getAllList(r));
+    getListOfName("https://swapi.dev/api/people/?format=json").then((r) =>
+      getAllList(r)
+    );
     setLoading(false);
   }, []); //получение данных апи , прохождение по всему списку
-
-  const getData = (url) => {
-    fetch(url).then((r) =>
-      r
-        .json()
-        .then((r) => getAllList(r))
-        .catch((e) => console.log(e))
-    );
-  };
 
   const namesArr = []; //массив имен
 
   const getAllList = (data) => {
-
-    data.results.forEach((item,index)=>namesArr.push(item.name))
-
+    data.results.forEach((item) => namesArr.push(item));
 
     if (data.next) {
-      getData(data.next);
+      getListOfName(data.next).then((r) => getAllList(r));
     } else {
       setLoading(false);
     }
@@ -49,12 +40,12 @@ function App() {
       return e.index === index;
     });
     if (!check) {
-      setLovelyHero([...lovely, { love, index }]);
+      setLovelyHero([...lovely,  love ]);
     }
   }; //добавление в избраное
-  /* const filteredName = dataName.filter((name) => {
-    return name.toLowerCase().includes(searchValue.toLowerCase());*/
-  /*});*/ //филтрация по имени
+  /*const filteredName = dataName.filter((dataName) => {
+    return dataName.toLowerCase().includes(searchValue.toLowerCase());})*/
+
   const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
   const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
   const currentName = dataName.slice(firstElemIndex, lastNameIndex); //текущий список имен*/

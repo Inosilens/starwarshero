@@ -11,12 +11,15 @@ function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
       </div>
     );
   }
-  const SAVE_INDEX = (index) =>
-    currentPage === 1 ? index + 1 : (currentPage - 1) * 10 + index + 1;
-  return (
+    function getId(url) {
+        return url.split('/')[url.split('/').length - 2]
+    }
+  const IMG_URL = 'https://starwars-visualguide.com/assets/img/characters/'
+
+    return (
     <div>
       <NavLinks />
-      <input
+    <input
         key={HeroList}
         placeholder="Searh Your Hero"
         onChange={(event) => setSearchValue(event.target.value)}
@@ -25,22 +28,18 @@ function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
       <div className="container">
         {data.map((item, index) => (
           <div>
-            <div key={item[index]} className="container__box">
+            <div key={index} className="container__box">
               <img
                 width="200px"
                 height="200px"
-                src={`https://starwars-visualguide.com/assets/img/characters/${
-                  currentPage === 1
-                    ? index + 1
-                    : (currentPage - 1) * 10 + index + 2
-                }.jpg`}
+                src={`${IMG_URL + getId(item.url)}.jpg`}
                 alt=""
               />
-              <h3 key={item}> {item} </h3>
+              <h3 key={item.name}> {item.name} </h3>
 
               <i
                 className="fas fa-heart "
-                onClick={() => addLovely(item, SAVE_INDEX(index))}
+                onClick={() => addLovely(item,index)}
               />
             </div>
           </div>

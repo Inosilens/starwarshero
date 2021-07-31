@@ -1,2 +1,2 @@
-export const getListOfName =() =>
-fetch("https://swapi.dev/api/people/?format=json").then((r) => r.json())
+export const getListOfName =(url) =>
+fetch(url).then((r) => r.json())
