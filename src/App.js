@@ -7,83 +7,79 @@ import Pagination from "./components/Pagination";
 import { getListOfName } from "./services/getListOfName";
 
 function App() {
-  const [dataAll, setDataName] = useState([]); //массив данных
   const [lovely, setLovelyHero] = useState([]); //массив избраных
   const [loading, setLoading] = useState(false); //загрузка
   const [currentPage, setCurrentPage] = useState(1); //текущая страница
-  const [namesPerPage] = useState(10); // количество выводимое на страницу
   const [searchValue, setSearchValue] = useState(""); //значение поиска
 
+  const [listOfPeople, setListOfPeople] = useState([]);
+  const [allData, setAllData] = useState(null);
 
   useEffect(() => {
-    getListOfName("https://swapi.dev/api/people/?format=json").then((r) =>
-      getAllList(r)
+    setLoading(true);
+    getListOfName("https://swapi.dev/api/people/?format=json").then(
+        (response) => {
+          setListOfPeople(response.results);
+          setAllData(response);
+          setLoading(false);
+        }
     );
-    setLoading(false);
   }, []); //получение данных апи , прохождение по всему списку
-  const getAllList = (data) => {
-    data.results.forEach((item) => NAMES_ARR.push(item));
-    data.next
-      ? getListOfName(data.next).then((r) => getAllList(r))
-      : setLoading(false);
-    setDataName(NAMES_ARR);
-  }; // получение всех имен
-  const addLovely =  (love, index) => {
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`https://swapi.dev/api/people/?page=${currentPage}&format=json`)
+        .then((data) => data.json())
+        .then((response) => {
+          setListOfPeople(response.results);
+          setLoading(false);
+        });
+  }, [currentPage]);
+
+  const addLovely = (love, index) => {
     let check = lovely.some(function (e) {
       return e.index === index;
     });
     if (!check) {
       setLovelyHero([...lovely, love]);
     }
-  }; //добавление в избраное
-  const filteredName = dataAll.filter((results) => {
-    return results.name.toLowerCase().includes(searchValue.toLowerCase());
-  });//фильтрация
-  const pagination = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  }; //деление на список
-
-
-  const NAMES_ARR = []; //массив имен
-  const LAST__NAME_INDEX = currentPage * namesPerPage; // последний индекс списка
-  const FIRST_ELEM_INDEX = lastNameIndex - namesPerPage; // первый индекс списка
-  const CURRENT__NAME = dataAll.slice(FIRST_ELEM_INDEX, LAST__NAME_INDEX); //текущий список имен*/
+  };
 
   return (
-    <>
-      <Router>
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => (
-              <>
-                <HeroList
-                  loading={loading}
-                  data={CURRENT__NAME}
-                  addLovely={addLovely}
-                  currentPage={currentPage}
-                  setSearchValue={setSearchValue}
-                  filteredName={filteredName}
-                />
-                <Pagination
-                  namesPerPage={CURRENT__NAME}
-                  totalNames={dataAll.length}
-                  pagination={pagination}
-                />
-              </>
-            )}
-          />
+      <>
+        <Router>
+          <Switch>
+            <Route
+                path="/"
+                exact
+                render={() => (
+                    <>
+                      <HeroList
+                          listOfPeople={listOfPeople}
+                          loading={loading}
+                          addLovely={addLovely}
+                          setSearchValue={setSearchValue}
+                      />
+                      {allData?.count && (
+                          <Pagination
+                              lengthOfList={allData?.count}
+                              setCurrentPage={setCurrentPage}
+                              currentPage={currentPage}
+                          />
+                      )}
+                    </>
+                )}
+            />
 
-          <Route
-            path="/favorites"
-            render={() => (
-              <LovelyHero lovelyList={lovely} currentPage={currentPage} />
-            )}
-          />
-        </Switch>
-      </Router>
-    </>
+            <Route
+                path="/favorites"
+                render={() => (
+                    <LovelyHero lovelyList={lovely} currentPage={currentPage} />
+                )}
+            />
+          </Switch>
+        </Router>
+      </>
   );
 }
 
