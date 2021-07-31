@@ -21,21 +21,15 @@ function App() {
     setLoading(false);
   }, []); //получение данных апи , прохождение по всему списку
 
-  const namesArr = []; //массив имен
-
   const getAllList = (data) => {
-    data.results.forEach((item) => namesArr.push(item));
-
-    if (data.next) {
-      getListOfName(data.next).then((r) => getAllList(r));
-    } else {
-      setLoading(false);
-    }
-
-    setDataName(namesArr);
+    data.results.forEach((item) => NAMES_ARR.push(item));
+    data.next
+      ? getListOfName(data.next).then((r) => getAllList(r))
+      : setLoading(false);
+    setDataName(NAMES_ARR);
   }; // получение всех имен
 
-  const addLovely = async (love, index) => {
+  const addLovely =  (love, index) => {
     let check = lovely.some(function (e) {
       return e.index === index;
     });
@@ -45,14 +39,16 @@ function App() {
   }; //добавление в избраное
   const filteredName = dataAll.filter((results) => {
     return results.name.toLowerCase().includes(searchValue.toLowerCase());
-  });
-
-  const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
-  const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
-  const currentName = dataAll.slice(firstElemIndex, lastNameIndex); //текущий список имен*/
+  });//фильтрация
   const pagination = (pageNumber) => {
     setCurrentPage(pageNumber);
   }; //деление на список
+
+  const NAMES_ARR = []; //массив имен
+  const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
+  const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
+  const currentName = dataAll.slice(firstElemIndex, lastNameIndex); //текущий список имен*/
+
   return (
     <>
       <Router>
