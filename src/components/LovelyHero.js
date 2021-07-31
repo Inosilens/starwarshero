@@ -15,9 +15,9 @@ function LovelyHero({ lovelyList,currentPage }) {
             width="200px"
             height="200px"
             src={`https://starwars-visualguide.com/assets/img/characters/${
-                currentPage === 1
-                    ? item.index + 1
-                    : (currentPage - 1) * 10 + item.index + 1
+                item.index+1
+                   
+                   
             }.jpg`}
             alt=""
           />

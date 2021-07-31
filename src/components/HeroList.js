@@ -11,7 +11,7 @@ function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
       </div>
     );
   }
-
+ const SAVE_INDEX=(index) => currentPage===1? index : (currentPage-1)*10+index+1
   return (
     <div>
       <NavLinks />
@@ -29,9 +29,9 @@ function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
                 width="200px"
                 height="200px"
                 src={`https://starwars-visualguide.com/assets/img/characters/${
-                  index === 17
+                  index === 0
                     ? (currentPage - 1) * 10 + index + 1
-                    : (currentPage - 1) * 10 + index + 1
+                    : (currentPage - 1) * 10 + index +2
                 }.jpg`}
                 alt=""
               />
@@ -39,7 +39,7 @@ function HeroList({ data, addLovely, loading, currentPage, setSearchValue }) {
 
               <i
                 className="fas fa-heart "
-                onClick={() => addLovely(item, index)}
+                onClick={() => addLovely(item,SAVE_INDEX(index) )}
               />
             </div>
           </div>
