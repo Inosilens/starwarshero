@@ -3,10 +3,13 @@ import NavLinks from "./NavLinks";
 
 function LovelyHero({ lovelyList,currentPage }) {
 
+
   return (
     <div>
       <NavLinks />
-      {lovelyList.map((item) => (
+
+
+      {lovelyList.map((item,i) => (
         <div className="container__box">
           <img
             width="200px"
@@ -18,7 +21,7 @@ function LovelyHero({ lovelyList,currentPage }) {
             }.jpg`}
             alt=""
           />
-          <h3>{item.love.name}</h3>
+          <h3>{item.love}</h3>
         </div>
       ))}
     </div>
