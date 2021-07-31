@@ -7,7 +7,7 @@ import Pagination from "./components/Pagination";
 import { getListOfName } from "./services/getListOfName";
 
 function App() {
-  const [dataName, setDataName] = useState([]); //массив данных
+  const [dataAll, setDataName] = useState([]); //массив данных
   const [lovely, setLovelyHero] = useState([]); //массив избраных
   const [loading, setLoading] = useState(false); //загрузка
   const [currentPage, setCurrentPage] = useState(1); //текущая страница
@@ -43,12 +43,12 @@ function App() {
       setLovelyHero([...lovely,  love ]);
     }
   }; //добавление в избраное
-  /*const filteredName = dataName.filter((dataName) => {
-    return dataName.toLowerCase().includes(searchValue.toLowerCase());})*/
+  const filteredName = dataAll.filter((results) => {
+    return results.name.toLowerCase().includes(searchValue.toLowerCase());})
 
   const lastNameIndex = currentPage * namesPerPage; // последний индекс списка
   const firstElemIndex = lastNameIndex - namesPerPage; // первый индекс списка
-  const currentName = dataName.slice(firstElemIndex, lastNameIndex); //текущий список имен*/
+  const currentName = dataAll.slice(firstElemIndex, lastNameIndex); //текущий список имен*/
   const pagination = (pageNumber) => {
     setCurrentPage(pageNumber);
   }; //деление на список
@@ -63,7 +63,7 @@ function App() {
               <>
                 <HeroList
                   loading={loading}
-                  data={currentName}
+                  data={filteredName}
                   addLovely={addLovely}
                   currentPage={currentPage}
                   setSearchValue={setSearchValue}
@@ -71,7 +71,7 @@ function App() {
                 />
                 <Pagination
                   namesPerPage={currentName}
-                  totalNames={dataName.length}
+                  totalNames={dataAll.length}
                   pagination={pagination}
                 />
               </>
