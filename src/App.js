@@ -5,6 +5,7 @@ import HeroList from "./components/HeroList";
 import LovelyHero from "./components/LovelyHero";
 import Pagination from "./components/Pagination";
 import { getListOfName } from "./services/getListOfName";
+import "bootstrap-css"
 
 function App() {
   const [lovely, setLovelyHero] = useState([]); //массив избраных
@@ -15,26 +16,24 @@ function App() {
   const [listOfPeople, setListOfPeople] = useState([]);
   const [allData, setAllData] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    getListOfName("https://swapi.dev/api/people/?format=json").then(
-        (response) => {
-          setListOfPeople(response.results);
-          setAllData(response);
-          setLoading(false);
-        }
-    );
-  }, []); //получение данных апи , прохождение по всему списку
+
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://swapi.dev/api/people/?page=${currentPage}&format=json`)
-        .then((data) => data.json())
-        .then((response) => {
-          setListOfPeople(response.results);
-          setLoading(false);
-        });
-  }, [currentPage]);
+    if(searchValue){
+        getListOfName(`https://swapi.dev/api/people/?search=${searchValue}`)
+            .then((response) => {
+                setListOfPeople(response.results);
+                setLoading(false);
+            });
+    }else {
+        getListOfName(`https://swapi.dev/api/people/?page=${currentPage}&format=json`)
+            .then((response) => {
+                setListOfPeople(response.results);
+                setLoading(false);
+            });
+    }
+  }, [currentPage,searchValue]);
 
   const addLovely = (love, index) => {
     let check = lovely.some(function (e) {
