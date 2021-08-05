@@ -4,12 +4,12 @@ function Pagination({ currentPage, setCurrentPage, lengthOfList }) {
     const paginationList = Math.ceil(lengthOfList / 10);
     return (
         <div>
-            <ul>
+            <ul className="pagination">
                 {paginationList &&
                 [...Array(paginationList)].map((item, i) => (
-                    <li key={i}>
+                    <li className="page-item" aria-current="page" key={i}>
                         <a
-                            className={currentPage === i + 1 ? "active" : ""}
+                            className={currentPage === i + 1 ? "active page-link" : "page-link"}
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();

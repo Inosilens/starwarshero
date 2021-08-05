@@ -6,55 +6,66 @@ function HeroList({
                       addLovely,
                       loading,
                       setSearchValue,
-                      listOfPeople
+                      listOfPeople,
+                      searchValue
                   }) {
     if (loading) {
         return (
             <div className="loader-ring">
-                <div />
-                <div />
-                <div />
+                <div/>
+                <div/>
+                <div/>
             </div>
         );
     }
+
     function getId(url) {
         return url.split("/")[url.split("/").length - 2];
     }
+
     const IMG_URL = "https://starwars-visualguide.com/assets/img/characters/";
-    let changeInput = (e)=>{
+    let changeInput = (e) => {
         e.preventDefault()
-        console.log(e.target.value)
         setSearchValue(e.target.value)
     }
-     changeInput = debounce(changeInput,500)
+    changeInput = debounce(changeInput, 500)
     return (
         <div>
-            <NavLinks />
+            <NavLinks/>
             <input
                 placeholder="Searh Your Hero"
                 onChange={changeInput}
                 type="text"
+
             />
-            <button type="button" className="btn btn-primary" onClick={()=>{
+            <button type="button" className="btn btn-secondary" onClick={() => {
                 setSearchValue("")
-            }}>Back to all list</button>
-            <div className="container ">
-                {listOfPeople.map((item, index) => (
-                    <div key={index}>
-                        <div className="container__box p-5">
-                            <img
-                                width="300px"
+            }}>Back to all list
+            </button>
+            <div className="hero__List">
+                <div className="row ">
+                    {listOfPeople.map((item, index) => (
+                        <div className="col-3" key={index}>
+                            <div className=" card  p-5">
+                                <img
+                                    width="300px"
+                                    className="img-fluid"
+                                    src={`${IMG_URL + getId(item.url)}.jpg`}
+                                    alt={item.name}
+                                />
+                                <div className="card-body">
+                                    <h3 className="card-text"> {item.name} </h3>
 
-                                src={`${IMG_URL + getId(item.url)}.jpg`}
-                                alt={item.name}
-                            />
-                            <h3> {item.name} </h3>
+                                    <button type="button" className="btn btn-secondary"
+                                            onClick={() => addLovely(item, index)}>Add to lovely
+                                    </button>
+                                </div>
 
-                            <button type="button" className="btn btn-secondary"  onClick={() => addLovely(item, index)}>Add to lovely</button>
 
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );
