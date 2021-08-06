@@ -6,6 +6,7 @@ import LovelyHero from "./components/LovelyHero";
 import Pagination from "./components/Pagination";
 import {getListOfName} from "./services/getListOfName";
 import "bootstrap-css"
+import {searchName} from "./services/searchName";
 
 function App() {
     const [lovely, setLovelyHero] = useState([]); //массив избраных
@@ -26,7 +27,7 @@ function App() {
                     setLoading(false);
                 });
         } else {
-            getListOfName(`https://swapi.dev/api/people/?search=${searchValue}`)
+            searchName(`https://swapi.dev/api/people/?search=${searchValue}`)
                 .then((response) => {
                     setAllData(response)
                     setListOfPeople(response.results);
