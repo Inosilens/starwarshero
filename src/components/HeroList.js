@@ -2,13 +2,7 @@ import React from "react";
 import NavLinks from "./NavLinks";
 import debounce from "../services/debounce";
 
-function HeroList({
-  addLovely,
-  loading,
-  setSearchValue,
-  listOfPeople,
-  searchValue,
-}) {
+function HeroList({ addLovely, loading, setSearchValue, listOfPeople }) {
   if (loading) {
     return (
       <div className="loader-ring">

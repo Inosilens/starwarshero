@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import NavLinks from "./NavLinks";
-
-
 function LovelyHero({ lovelyList }) {
   function getId(url) {
     return url.split("/")[url.split("/").length - 2];
